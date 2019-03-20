@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Zelda's Cookbook</title>
+
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #536f50;
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            color: #fdffe0;
+        }
+
+        .pot {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-evenly;
+            border: .1rem solid #fdffe0;
+        }
+
+        .counter {
+            display: flex;
+            border: .1rem solid #fdffe0;
+        }
+
+        .empty, .result, .filled {
+            border: .1rem solid #fdffe0;
+            width: 150px;
+            height: 150px;
+            margin: 10px;
+            font-size: 7rem;
+            text-align: center;
+        }
+
+        .ingredient {
+            border: .1rem solid #fdffe0;
+            width: 50px;
+            height: 50px;
+            margin: 10px;
+            font-size: 2.5em;
+            text-align: center;
+            /* vertical-align: center; */
+        }
+
+        .filled {
+            background-color: #86a5a9;
+        }
+
+        .result {
+            font-size: 7rem;
+            text-align: center;
+            /* vertical-align: center; */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Zelda's Cookbook</h1>
+    </header>
+    <div class="pot">
+        <div class="box empty"></div>
+        <div class="box empty"></div>
+        <div class="box empty"></div>
+        <div class="box empty"></div>
+        <div class="result">0</div>
+    </div>
+    <div class="counter">
+        <div class="ingredient" data-num="one">1</div>
+        <div class="ingredient" data-num="two">2</div>
+        <div class="ingredient" data-num="three">3</div>
+        <div class="ingredient" data-num="four">4</div>
+        <div class="ingredient" data-num="five">5</div>
+        <div class="ingredient" data-num="six">6</div>
+        <div class="ingredient" data-num="seven">7</div>
+        <div class="ingredient" data-num="eight">8</div>
+        <div class="ingredient" data-num="nine">9</div>
+        <div class="ingredient" data-num="ten">10</div>
+        <!-- <div class="ingredient" data-num="eleven">11</div> -->
+    </div>
+
+    <script>
+        const data = {
+            "one" : 1,
+            "two" : 2,
+            "three" : 3,
+            "four" : 4,
+            "five" : 5,
+            "six" : 6,
+            "seven" : 7,
+            "eight" : 8,
+            "nine" : 9,
+            "ten" : 10
+        };
+
+        const potItems = document.querySelectorAll(".box");
+        const counterItems = document.querySelectorAll(".ingredient");
+        const result = document.querySelector(".result");
+
+        const potArray = [];
+        for (const potItem of potItems) {
+            potItem.addEventListener("dblclick", doubleClicked);
+            potArray.push(potItem);
+        }
+        for (const counterItem of counterItems) counterItem.addEventListener("click", clicked);
+
+        function clicked() {
+            for (const potItem of potArray) {
+                if (potItem.classList.contains("empty")) {
+                    potItem.classList.replace("empty", "filled");
+                    potItem.setAttribute("data-num", this.getAttribute("data-num"));
+                    potItem.innerHTML = data[this.getAttribute("data-num")];
+                    break;
+                }
+            };
+            // if (this.classList.contains("empty")) {
+            //     this.classList.replace("empty", "filled");
+            //     this.setAttribute("data-num", "one");
+            // } else {
+            //     this.classList.replace("filled", "empty");
+            //     this.removeAttribute("data-num");
+            // }
+            cook(); 
+        }
+
+        function doubleClicked() {
+            if (this.classList.contains("filled")) {
+                this.classList.replace("filled", "empty");
+                this.removeAttribute("data-num");
+                this.innerHTML = "";
+            }
+            cook();
+        }
+
+        function cook() {
+            const ingredients = document.querySelectorAll('.filled');
+            let total = 0;
+            for (const ingredient of ingredients) {
+                total += data[ingredient.getAttribute("data-num")];
+            }
+            result.innerHTML = total;
+            // const result = document.querySelector(".result");
+            // result.setAttribute("data-num", total);
+        }
+    </script>
+</body>
+</html>
