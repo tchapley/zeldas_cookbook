@@ -30,7 +30,14 @@
 
         .counter {
             display: flex;
+            flex-direction: column;
             border: .1rem solid #fdffe0;
+        }
+
+        .item {
+            display: flex;
+            border: .1rem solid red;
+            width: 100%;
         }
 
         .empty, .result, .filled {
@@ -75,6 +82,9 @@
         <div class="result">0</div>
     </div>
     <div class="counter">
+
+    </div>
+    <!-- <div class="counter">
         <div class="ingredient" data-num="one">1</div>
         <div class="ingredient" data-num="two">2</div>
         <div class="ingredient" data-num="three">3</div>
@@ -85,10 +95,52 @@
         <div class="ingredient" data-num="eight">8</div>
         <div class="ingredient" data-num="nine">9</div>
         <div class="ingredient" data-num="ten">10</div>
-        <!-- <div class="ingredient" data-num="eleven">11</div> -->
-    </div>
+        <div class="ingredient" data-num="eleven">11</div>
+    </div> -->
 
     <script>
+        // Each ingredient contributes its bonus HP and/or time at most once per recipe
+        const zeldaData = {
+            "Palm Fruit" : { type : "None", category : "Fruit", price : 4, baseHP : 4, bonusHP : 0, baseTime : 30, bonusTime : 0, critChance : 0 },
+            "Apple" : { type : "None", category : "Fruit", price : 3, baseHP : 2, bonusHP : 0, baseTime : 30, bonusTime : 0, critChance : 0 },
+            "Wildberry" : { type : "None", category : "Fruit", price : 3, baseHP : 2, bonusHP : 0, baseTime : 30, bonusTime : 0, critChance : 0 },
+            "Hylian Shroom" : { type : "None", category : "Mushroom", price : 3, baseHP : 2, bonusHP : 0, baseTime : 30, bonusTime : 0, critChance : 0 },
+            "Hyrule Herb" : { type : "None", category : "Vegetable", price : 3, baseHP : 4, bonusHP : 0, baseTime : 30, bonusTime : 0, critChance : 0 },
+            "Raw Gourmet Meat" : { type : "None", category : "Meat", price : 35, baseHP : 12, bonusHP : 0, baseTime : 30, bonusTime : 0, critChance : 0 },
+            "Raw Prime Meat" : { type : "None", category : "Meat", price : 15, baseHP : 6, bonusHP : 0, baseTime : 30, bonusTime : 0, critChance : 0 },
+            "Raw Meat" : { type : "None", category : "Meat", price : 8, baseHP : 4, bonusHP : 0, baseTime : 30, bonusTime : 0, critChance : 0 },
+            "Raw Whole Bird" : { type : "None", category : "Poultry", price : 35, baseHP : 12, bonusHP : 0, baseTime : 30, bonusTime : 0, critChance : 0 },
+            "Raw Bird Thigh" : { type : "None", category : "Poultry", price : 15, baseHP : 6, bonusHP : 0, baseTime : 30, bonusTime : 0, critChance : 0 },
+            "Raw Bird Drumstick" : { type : "None", category : "Poultry", price : 8, baseHP : 4, bonusHP : 0, baseTime : 30, bonusTime : 0, critChance : 0 },
+            "Hyrule Bass" : { type : "None", category : "Fish", price : 6, baseHP : 4, bonusHP : 0, baseTime : 30, bonusTime : 0, critChance : 0 },
+            "Sanke Carp" : { type : "None", category : "Fish", price : 20, baseHP : 4, bonusHP : 0, baseTime : 30, bonusTime : 0, critChance : 0 },
+            "Hylian Rice" : { type : "None", category : "Spice", price : 3, baseHP : 4, bonusHP : 0, baseTime : 30, bonusTime : 30, critChance : 0 },
+            "Bird Egg" : { type : "None", category : "Egg", price : 3, baseHP : 4, bonusHP : 0, baseTime : 30, bonusTime : 60, critChance : .1 },
+            "Tabantha Wheat" : { type : "None", category : "Spice", price : 3, baseHP : 4, bonusHP : 0, baseTime : 30, bonusTime : 30, critChance : 0 },
+            // Milk bonus applies only if the recipe contains no non-Milk ingredients
+            "Fresh Milk" : { type : "None", category : "Milk", price : 3, baseHP : 2, bonusHP : 2, baseTime : 30, bonusTime : 50, critChance : 0 },
+            // Nut bonus applies when cooked with at least one ingredient that is different from itself (combining both types of nut works, and gives both bonuses)
+            "Acorn" : { type : "None", category : "Nut", price : 2, baseHP : 1, bonusHP : 2, baseTime : 30, bonusTime : 20, critChance : 0 },
+            "Chickaloo Tree Nut" : { type : "None", category : "Nut", price : 3, baseHP : 1, bonusHP : 2, baseTime : 30, bonusTime : 10, critChance : 0 },
+            "Cane Sugar" : { type : "None", category : "Spice", price : 3, baseHP : 0, bonusHP : 0, baseTime : 30, bonusTime :  50, critChance : .3 },
+            "Goat Butter" : { type : "None", category : "Spice", price : 3, baseHP : 0, bonusHP : 0, baseTime : 30, bonusTime :  50, critChance : .1 },
+            "Goron Spice" : { type : "None", category : "Spice", price : 4, baseHP : 0, bonusHP : 0, baseTime : 30, bonusTime : 60, critChance : .1 },
+            "Rock Salt" : { type : "None", category : "Spice", price : 2, baseHP : 0, bonusHP : 0, baseTime : 30, bonusTime : 30, critChance : 0 },
+            "Monster Extract" : { type : "None", category : "Spice", price : 3, baseHP : 0, bonusHP : 0, baseTime : 0, bonusTime : 0, critChance : 0 },
+            "Fairy" : { type : "None", category : "Fairy", price : 2, baseHP : 20, bonusHP : 0, baseTime : 30, bonusTime : 0, critChance : 0 }
+        };
+
+        const counterTop = document.querySelector(".counter");
+        for (const item in zeldaData) {
+            const markup = `
+                <div class="item" data-item="${item}">
+                    <p>${item}</p>
+                    <p>${zeldaData[item].price}</p>
+                </div>
+            `;
+            counterTop.innerHTML += markup;
+        }
+
         const data = {
             "one" : 1,
             "two" : 2,
@@ -103,7 +155,7 @@
         };
 
         const potItems = document.querySelectorAll(".box");
-        const counterItems = document.querySelectorAll(".ingredient");
+        const counterItems = document.querySelectorAll(".item");
         const result = document.querySelector(".result");
 
         const potArray = [];
@@ -117,8 +169,8 @@
             for (const potItem of potArray) {
                 if (potItem.classList.contains("empty")) {
                     potItem.classList.replace("empty", "filled");
-                    potItem.setAttribute("data-num", this.getAttribute("data-num"));
-                    potItem.innerHTML = data[this.getAttribute("data-num")];
+                    potItem.setAttribute("data-item", this.getAttribute("data-item"));
+                    potItem.innerHTML = zeldaData[this.getAttribute("data-item")].price;
                     break;
                 }
             };
@@ -135,7 +187,7 @@
         function doubleClicked() {
             if (this.classList.contains("filled")) {
                 this.classList.replace("filled", "empty");
-                this.removeAttribute("data-num");
+                this.removeAttribute("data-item");
                 this.innerHTML = "";
             }
             cook();
@@ -145,11 +197,16 @@
             const ingredients = document.querySelectorAll('.filled');
             let total = 0;
             for (const ingredient of ingredients) {
-                total += data[ingredient.getAttribute("data-num")];
+                total += zeldaData[ingredient.getAttribute("data-item")].price;
             }
-            result.innerHTML = total;
-            // const result = document.querySelector(".result");
-            // result.setAttribute("data-num", total);
+            let baseHP = 0;
+            let bonusHP = 0;
+            for (let i = 0; i < ingredients.length; i++) {
+                const ingredient = ingredients[i];
+                baseHP += zeldaData[ingredient.getAttribute("data-item")].baseHP;
+                bonusHP += zeldaData[ingredient.getAttribute("data-item")].bonusHP;
+            }
+            result.innerHTML = (2*baseHP) + bonusHP;
         }
     </script>
 </body>
