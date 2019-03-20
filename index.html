@@ -28,16 +28,25 @@
             border: .1rem solid #fdffe0;
         }
 
-        .counter {
+        .countertop {
             display: flex;
-            flex-direction: column;
+            flex-wrap: wrap;
+            justify-content:space-evenly;
             border: .1rem solid #fdffe0;
         }
 
         .item {
-            display: flex;
+            flex: 0 0 80px;
             border: .1rem solid red;
-            width: 100%;
+            margin: 5px;
+            width: 80px;
+            height: 80px;
+        }
+
+        .item-img {
+            object-fit:cover;
+            max-width: 100%;
+            max-height: 100%;
         }
 
         .empty, .result, .filled {
@@ -81,8 +90,8 @@
         <div class="box empty"></div>
         <div class="result">0</div>
     </div>
-    <div class="counter">
-
+    <div class="countertop">
+        
     </div>
     <!-- <div class="counter">
         <div class="ingredient" data-num="one">1</div>
@@ -130,12 +139,11 @@
             "Fairy" : { type : "None", category : "Fairy", price : 2, baseHP : 20, bonusHP : 0, baseTime : 30, bonusTime : 0, critChance : 0 }
         };
 
-        const counterTop = document.querySelector(".counter");
+        const counterTop = document.querySelector(".countertop");
         for (const item in zeldaData) {
             const markup = `
                 <div class="item" data-item="${item}">
-                    <p>${item}</p>
-                    <p>${zeldaData[item].price}</p>
+                    <img class="item-img" src="img/${item}.png" alt="${item}">
                 </div>
             `;
             counterTop.innerHTML += markup;
@@ -170,7 +178,8 @@
                 if (potItem.classList.contains("empty")) {
                     potItem.classList.replace("empty", "filled");
                     potItem.setAttribute("data-item", this.getAttribute("data-item"));
-                    potItem.innerHTML = zeldaData[this.getAttribute("data-item")].price;
+                    const item = this.getAttribute("data-item");
+                    potItem.innerHTML = `<img class="item-img" src="img/${item}.png" alt="${item}">`
                     break;
                 }
             };
