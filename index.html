@@ -109,104 +109,101 @@
 
     <script>
         // Each ingredient contributes its bonus HP and/or time at most once per recipe
-        const zeldaData = {
-            "Palm Fruit" : { type : "None", category : "Fruit", price : 4, baseHP : 4, bonusHP : 0, baseTime : 30, bonusTime : 0, critChance : 0, potency : 1 },
-            "Apple" : { type : "None", category : "Fruit", price : 3, baseHP : 2, bonusHP : 0, baseTime : 30, bonusTime : 0, critChance : 0, potency : 1 },
-            "Wildberry" : { type : "None", category : "Fruit", price : 3, baseHP : 2, bonusHP : 0, baseTime : 30, bonusTime : 0, critChance : 0, potency : 1 },
-            "Hylian Shroom" : { type : "None", category : "Mushroom", price : 3, baseHP : 2, bonusHP : 0, baseTime : 30, bonusTime : 0, critChance : 0, potency : 1 },
-            "Hyrule Herb" : { type : "None", category : "Vegetable", price : 3, baseHP : 4, bonusHP : 0, baseTime : 30, bonusTime : 0, critChance : 0, potency : 1 },
-            "Raw Gourmet Meat" : { type : "None", category : "Meat", price : 35, baseHP : 12, bonusHP : 0, baseTime : 30, bonusTime : 0, critChance : 0, potency : 1 },
-            "Raw Prime Meat" : { type : "None", category : "Meat", price : 15, baseHP : 6, bonusHP : 0, baseTime : 30, bonusTime : 0, critChance : 0, potency : 1 },
-            "Raw Meat" : { type : "None", category : "Meat", price : 8, baseHP : 4, bonusHP : 0, baseTime : 30, bonusTime : 0, critChance : 0, potency : 1 },
-            "Raw Whole Bird" : { type : "None", category : "Poultry", price : 35, baseHP : 12, bonusHP : 0, baseTime : 30, bonusTime : 0, critChance : 0, potency : 1 },
-            "Raw Bird Thigh" : { type : "None", category : "Poultry", price : 15, baseHP : 6, bonusHP : 0, baseTime : 30, bonusTime : 0, critChance : 0, potency : 1 },
-            "Raw Bird Drumstick" : { type : "None", category : "Poultry", price : 8, baseHP : 4, bonusHP : 0, baseTime : 30, bonusTime : 0, critChance : 0, potency : 1 },
-            "Hyrule Bass" : { type : "None", category : "Fish", price : 6, baseHP : 4, bonusHP : 0, baseTime : 30, bonusTime : 0, critChance : 0, potency : 1 },
-            "Sanke Carp" : { type : "None", category : "Fish", price : 20, baseHP : 4, bonusHP : 0, baseTime : 30, bonusTime : 0, critChance : 0, potency : 1 },
-            "Hylian Rice" : { type : "None", category : "Spice", price : 3, baseHP : 4, bonusHP : 0, baseTime : 30, bonusTime : 30, critChance : 0, potency : 1 },
-            "Bird Egg" : { type : "None", category : "Egg", price : 3, baseHP : 4, bonusHP : 0, baseTime : 30, bonusTime : 60, critChance : .1, potency : 1 },
-            "Tabantha Wheat" : { type : "None", category : "Spice", price : 3, baseHP : 4, bonusHP : 0, baseTime : 30, bonusTime : 30, critChance : 0, potency : 1 },
-            // Milk bonus applies only if the recipe contains no non-Milk ingredients
-            "Fresh Milk" : { type : "None", category : "Milk", price : 3, baseHP : 2, bonusHP : 2, baseTime : 30, bonusTime : 50, critChance : 0, potency : 1 },
-            // Nut bonus applies when cooked with at least one ingredient that is different from itself (combining both types of nut works, and gives both bonuses)
-            "Acorn" : { type : "None", category : "Nut", price : 2, baseHP : 1, bonusHP : 2, baseTime : 30, bonusTime : 20, critChance : 0, potency : 1 },
-            "Chickaloo Tree Nut" : { type : "None", category : "Nut", price : 3, baseHP : 1, bonusHP : 2, baseTime : 30, bonusTime : 10, critChance : 0, potency : 1 },
-            "Cane Sugar" : { type : "None", category : "Spice", price : 3, baseHP : 0, bonusHP : 0, baseTime : 30, bonusTime :  50, critChance : .3, potency : 1 },
-            "Goat Butter" : { type : "None", category : "Spice", price : 3, baseHP : 0, bonusHP : 0, baseTime : 30, bonusTime :  50, critChance : .1, potency : 1 },
-            "Goron Spice" : { type : "None", category : "Spice", price : 4, baseHP : 0, bonusHP : 0, baseTime : 30, bonusTime : 60, critChance : .1, potency : 1 },
-            "Rock Salt" : { type : "None", category : "Spice", price : 2, baseHP : 0, bonusHP : 0, baseTime : 30, bonusTime : 30, critChance : 0, potency : 1 },
-            "Monster Extract" : { type : "None", category : "Spice", price : 3, baseHP : 0, bonusHP : 0, baseTime : 0, bonusTime : 0, critChance : 0, potency : 1 },
-            "Fairy" : { type : "None", category : "Fairy", price : 2, baseHP : 20, bonusHP : 0, baseTime : 30, bonusTime : 0, critChance : 0, potency : 1 },
-            "Silent Shroom" : { type : "Sneaky", category : "Mushroom", price : 3, baseHP : 2, bonusHP : 0, baseTime : 120, bonusTime : 0, critChance : 0, potency : 2 },
-            "Blue Nightshade" : { type : "Sneaky", category : "Vegetable", price : 4, baseHP : 0, bonusHP : 0, baseTime : 120, bonusTime : 0, critChance : 0, potency : 1 },
-            "Silent Princess" : { type : "Sneaky", category : "Vegetable", price : 10, baseHP : 4, bonusHP : 0, baseTime : 120, bonusTime : 0, critChance : 0, potency : 3 },
-            "Stealthfin Trout" : { type : "Sneaky", category : "Fish", price : 10, baseHP : 4, bonusHP : 0, baseTime : 120, bonusTime : 0, critChance : 0, potency : 2 },
-            "Sneaky River Snail" : { type : "Sneaky", category : "Seafood", price : 6, baseHP : 4, bonusHP : 0, baseTime : 120, bonusTime : 0, critChance : 0, potency : 1 },
-            "Sunset Firefly" : { type : "Sneaky", category : "Critter", price : 2, baseHP : 0, bonusHP : 0, baseTime : 120, bonusTime : 0, critChance : 0, potency : 1 },
-            "Ironshroom" : { type : "Tough", category : "Mushroom", price : 5, baseHP : 2, bonusHP : 0, baseTime : 50, bonusTime : 0, critChance : 0, potency : 2 },
-            "Fortified Pumpkin" : { type : "Tough", category : "Vegetable", price : 5, baseHP : 2, bonusHP : 0, baseTime : 50, bonusTime : 0, critChance : 0, potency : 2 },
-            "Armoranth" : { type : "Tough", category : "Vegetable", price : 5, baseHP : 0, bonusHP : 0, baseTime : 50, bonusTime : 0, critChance : 0, potency : 1 },
-            "Armored Carp" : { type : "Tough", category : "Fish", price : 10, baseHP : 4, bonusHP : 0, baseTime : 50, bonusTime : 0, critChance : 0, potency : 2 },
-            "Armored Porgy" : { type : "Tough", category : "Fish", price : 10, baseHP : 4, bonusHP : 0, baseTime : 50, bonusTime : 0, critChance : 0, potency : 3 },
-            "Ironshell Crab" : { type : "Tough", category : "Seafood", price : 8, baseHP : 4, bonusHP : 0, baseTime : 50, bonusTime : 0, critChance : 0, potency : 2 },
-            "Rugged Rhino Beetle" : { type : "Tough", category : "Critter", price : 4, baseHP : 0, bonusHP : 0, baseTime : 50, bonusTime : 0, critChance : 0, potency : 1 },
-            "Mighty Bananas" : { type : "Mighty", category : "Fruit", price : 5, baseHP : 2, bonusHP : 0, baseTime : 50, bonusTime : 0, critChance : 0, potency : 2 },
-            "Razorshroom" : { type : "Mighty", category : "Mushroom", price : 5, baseHP : 2, bonusHP : 0, baseTime : 50, bonusTime : 0, critChance : 0, potency : 2 },
-            "Mighty Thistle" : { type : "Mighty", category : "Vegetable", price : 5, baseHP : 0, bonusHP : 0, baseTime : 50, bonusTime : 0, critChance : 0, potency : 1 },
-            "Mighty Carp" : { type : "Mighty", category : "Fish", price : 10, baseHP : 4, bonusHP : 0, baseTime : 50, bonusTime : 0, critChance : 0, potency : 2 },
-            "Mighty Porgy" : { type : "Mighty", category : "Fish", price : 10, baseHP : 4, bonusHP : 0, baseTime : 50, bonusTime : 0, critChance : 0, potency : 3 },
-            "Razorclaw Crab" : { type : "Mighty", category : "Seafood", price : 8, baseHP : 4, bonusHP : 0, baseTime : 50, bonusTime : 0, critChance : 0, potency : 2 },
-            "Bladed Rhino Beetle" : { type : "Mighty", category : "Critter", price : 4, baseHP : 0, bonusHP : 0, baseTime : 50, bonusTime : 0, critChance : 0, potency : 1 },
-            "Smotherwing Butterfly" : { type : "Fireproof", category : "Critter", price : 2, baseHP : 0, bonusHP : 0, baseTime : 150, bonusTime : 0, critChance : 0, potency : 2 },
-            "Fireproof Lizard" : { type : "Fireproof", category : "Critter", price : 5, baseHP : 0, bonusHP : 0, baseTime : 150, bonusTime : 0, critChance : 0, potency : 1 },
-            "Voltfruit" : { type : "Electro", category : "Fruit", price : 4, baseHP : 2, bonusHP : 0, baseTime : 150, bonusTime : 0, critChance : 0, potency : 1 },
-            "Zapshroom" : { type : "Electro", category : "Mushroom", price : 4, baseHP : 2, bonusHP : 0, baseTime : 150, bonusTime : 0, critChance : 0, potency : 2 },
-            "Electric Safflina" : { type : "Electro", category : "Vegetable", price : 3, baseHP : 0, bonusHP : 0, baseTime : 150, bonusTime : 0, critChance : 0, potency : 1 },
-            "Voltfin Trout" : { type : "Electro", category : "Fish", price : 6, baseHP : 4, bonusHP : 0, baseTime : 150, bonusTime : 0, critChance : 0, potency : 3 },
-            "Thunderwing Butterfly" : { type : "Electro", category : "Critter", price : 2, baseHP : 0, bonusHP : 0, baseTime : 150, bonusTime : 0, critChance : 0, potency : 1 },
-            "Electric Darner" : { type : "Electro", category : "Critter", price : 2, baseHP : 0, bonusHP : 0, baseTime : 150, bonusTime : 0, critChance : 0, potency : 2 },
-            "Hydromelon" : { type : "Chilly", category : "Fruit", price : 4, baseHP : 2, bonusHP : 0, baseTime : 150, bonusTime : 0, critChance : 0, potency : 1 },
-            "Chillshroom" : { type : "Chilly", category : "Mushroom", price : 4, baseHP : 2, bonusHP : 0, baseTime : 150, bonusTime : 0, critChance : 0, potency : 2 },
-            "Cool Safflina" : { type : "Chilly", category : "Vegetable", price : 3, baseHP : 0, bonusHP : 0, baseTime : 150, bonusTime : 0, critChance : 0, potency : 1 },
-            "Chillfin Trout" : { type : "Chilly", category : "Fish", price : 6, baseHP : 4, bonusHP : 0, baseTime : 150, bonusTime : 0, critChance : 0, potency : 3 },
-            "Winterwing Butterfly" : { type : "Chilly", category : "Critter", price : 2, baseHP : 0, bonusHP : 0, baseTime : 150, bonusTime : 0, critChance : 0, potency : 1 },
-            "Cold Darner" : { type : "Chilly", category : "Critter", price : 2, baseHP : 0, bonusHP : 0, baseTime : 150, bonusTime : 0, critChance : 0, potency : 2 },
-            "Spicy Pepper" : { type : "Spicy", category : "Fruit*", price : 3, baseHP : 2, bonusHP : 0, baseTime : 150, bonusTime : 0, critChance : 0, potency : 1 },
-            "Sunshroom" : { type : "Spicy", category : "Mushroom", price : 4, baseHP : 2, bonusHP : 0, baseTime : 150, bonusTime : 0, critChance : 0, potency : 2 },
-            "Warm Safflina" : { type : "Spicy", category : "Vegetable", price : 3, baseHP : 0, bonusHP : 0, baseTime : 150, bonusTime : 0, critChance : 0, potency : 1 },
-            "Sizzlefin Trout" : { type : "Spicy", category : "Fish", price : 6, baseHP : 4, bonusHP : 0, baseTime : 150, bonusTime : 0, critChance : 0, potency : 3 },
-            "Summerwing Butterfly" : { type : "Spicy", category : "Critter", price : 2, baseHP : 0, bonusHP : 0, baseTime : 150, bonusTime : 0, critChance : 0, potency : 1 },
-            "Warm Darner" : { type : "Spicy", category : "Critter", price : 2, baseHP : 0, bonusHP : 0, baseTime : 150, bonusTime : 0, critChance : 0, potency : 2 },
-            "Fleet-Lotus Seeds" : { type : "Hasty", category : "Fruit", price : 5, baseHP : 2, bonusHP : 0, baseTime : 60, bonusTime : 0, critChance : 0, potency : 2 },
-            "Rushroom" : { type : "Hasty", category : "Mushroom", price : 3, baseHP : 2, bonusHP : 0, baseTime : 60, bonusTime : 0, critChance : 0, potency : 1 },
-            "Swift Carrot" : { type : "Hasty", category : "Vegetable", price : 4, baseHP : 2, bonusHP : 0, baseTime : 60, bonusTime : 0, critChance : 0, potency : 1 },
-            "Swift Violet" : { type : "Hasty", category : "Vegetable", price : 10, baseHP : 0, bonusHP : 0, baseTime : 60, bonusTime : 0, critChance : 0, potency : 2 },
-            "Hot-Footed Frog" : { type : "Hasty", category : "Critter", price : 2, baseHP : 0, bonusHP : 0, baseTime : 60, bonusTime : 0, critChance : 0, potency : 2 },
-            "Hightail Lizard" : { type : "Hasty", category : "Critter", price : 2, baseHP : 0, bonusHP : 0, baseTime : 60, bonusTime : 0, critChance : 0, potency : 1 },
-        };
+        const zeldaData = [ 
+            { name : "Palm Fruit", type : "None", category : "Fruit", price : 4, baseHP : 4, bonusHP : 0, baseTime : 30, bonusTime : 0, critChance : 0, potency : 1 }, 
+            { name : "Apple", type : "None", category : "Fruit", price : 3, baseHP : 2, bonusHP : 0, baseTime : 30, bonusTime : 0, critChance : 0, potency : 1 }, 
+            { name : "Wildberry", type : "None", category : "Fruit", price : 3, baseHP : 2, bonusHP : 0, baseTime : 30, bonusTime : 0, critChance : 0, potency : 1 }, 
+            { name : "Hylian Shroom", type : "None", category : "Mushroom", price : 3, baseHP : 2, bonusHP : 0, baseTime : 30, bonusTime : 0, critChance : 0, potency : 1 }, 
+            { name : "Hyrule Herb", type : "None", category : "Vegetable", price : 3, baseHP : 4, bonusHP : 0, baseTime : 30, bonusTime : 0, critChance : 0, potency : 1 }, 
+            { name : "Raw Gourmet Meat", type : "None", category : "Meat", price : 35, baseHP : 12, bonusHP : 0, baseTime : 30, bonusTime : 0, critChance : 0, potency : 1 }, 
+            { name : "Raw Prime Meat", type : "None", category : "Meat", price : 15, baseHP : 6, bonusHP : 0, baseTime : 30, bonusTime : 0, critChance : 0, potency : 1 }, 
+            { name : "Raw Meat", type : "None", category : "Meat", price : 8, baseHP : 4, bonusHP : 0, baseTime : 30, bonusTime : 0, critChance : 0, potency : 1 }, 
+            { name : "Raw Whole Bird", type : "None", category : "Poultry", price : 35, baseHP : 12, bonusHP : 0, baseTime : 30, bonusTime : 0, critChance : 0, potency : 1 }, 
+            { name : "Raw Bird Thigh", type : "None", category : "Poultry", price : 15, baseHP : 6, bonusHP : 0, baseTime : 30, bonusTime : 0, critChance : 0, potency : 1 }, 
+            { name : "Raw Bird Drumstick", type : "None", category : "Poultry", price : 8, baseHP : 4, bonusHP : 0, baseTime : 30, bonusTime : 0, critChance : 0, potency : 1 }, 
+            { name : "Hyrule Bass", type : "None", category : "Fish", price : 6, baseHP : 4, bonusHP : 0, baseTime : 30, bonusTime : 0, critChance : 0, potency : 1 }, 
+            { name : "Sanke Carp", type : "None", category : "Fish", price : 20, baseHP : 4, bonusHP : 0, baseTime : 30, bonusTime : 0, critChance : 0, potency : 1 }, 
+            { name : "Hylian Rice", type : "None", category : "Spice", price : 3, baseHP : 4, bonusHP : 0, baseTime : 30, bonusTime : 30, critChance : 0, potency : 1 }, 
+            { name : "Bird Egg", type : "None", category : "Egg", price : 3, baseHP : 4, bonusHP : 0, baseTime : 30, bonusTime : 60, critChance : .1, potency : 1 }, 
+            { name : "Tabantha Wheat", type : "None", category : "Spice", price : 3, baseHP : 4, bonusHP : 0, baseTime : 30, bonusTime : 30, critChance : 0, potency : 1 }, 
+            // Milk bonus applies only if the recipe contains no non-Milk ingredients 
+            { name : "Fresh Milk", type : "None", category : "Milk", price : 3, baseHP : 2, bonusHP : 2, baseTime : 30, bonusTime : 50, critChance : 0, potency : 1 }, 
+            // Nut bonus applies when cooked with at least one ingredient that is different from itself (combining both types of nut works, and gives both bonuses) 
+            { name : "Acorn", type : "None", category : "Nut", price : 2, baseHP : 1, bonusHP : 2, baseTime : 30, bonusTime : 20, critChance : 0, potency : 1 }, 
+            { name : "Chickaloo Tree Nut", type : "None", category : "Nut", price : 3, baseHP : 1, bonusHP : 2, baseTime : 30, bonusTime : 10, critChance : 0, potency : 1 }, 
+            { name : "Cane Sugar", type : "None", category : "Spice", price : 3, baseHP : 0, bonusHP : 0, baseTime : 30, bonusTime :  50, critChance : .3, potency : 1 }, 
+            { name : "Goat Butter", type : "None", category : "Spice", price : 3, baseHP : 0, bonusHP : 0, baseTime : 30, bonusTime :  50, critChance : .1, potency : 1 }, 
+            { name : "Goron Spice", type : "None", category : "Spice", price : 4, baseHP : 0, bonusHP : 0, baseTime : 30, bonusTime : 60, critChance : .1, potency : 1 }, 
+            { name : "Rock Salt", type : "None", category : "Spice", price : 2, baseHP : 0, bonusHP : 0, baseTime : 30, bonusTime : 30, critChance : 0, potency : 1 }, 
+            { name : "Monster Extract", type : "None", category : "Spice", price : 3, baseHP : 0, bonusHP : 0, baseTime : 0, bonusTime : 0, critChance : 0, potency : 1 }, 
+            { name : "Fairy", type : "None", category : "Fairy", price : 2, baseHP : 20, bonusHP : 0, baseTime : 30, bonusTime : 0, critChance : 0, potency : 1 }, 
+            { name : "Silent Shroom", type : "Sneaky", category : "Mushroom", price : 3, baseHP : 2, bonusHP : 0, baseTime : 120, bonusTime : 0, critChance : 0, potency : 2 }, 
+            { name : "Blue Nightshade", type : "Sneaky", category : "Vegetable", price : 4, baseHP : 0, bonusHP : 0, baseTime : 120, bonusTime : 0, critChance : 0, potency : 1 }, 
+            { name : "Silent Princess", type : "Sneaky", category : "Vegetable", price : 10, baseHP : 4, bonusHP : 0, baseTime : 120, bonusTime : 0, critChance : 0, potency : 3 }, 
+            { name : "Stealthfin Trout", type : "Sneaky", category : "Fish", price : 10, baseHP : 4, bonusHP : 0, baseTime : 120, bonusTime : 0, critChance : 0, potency : 2 }, 
+            { name : "Sneaky River Snail", type : "Sneaky", category : "Seafood", price : 6, baseHP : 4, bonusHP : 0, baseTime : 120, bonusTime : 0, critChance : 0, potency : 1 }, 
+            { name : "Sunset Firefly", type : "Sneaky", category : "Critter", price : 2, baseHP : 0, bonusHP : 0, baseTime : 120, bonusTime : 0, critChance : 0, potency : 1 }, 
+            { name : "Ironshroom", type : "Tough", category : "Mushroom", price : 5, baseHP : 2, bonusHP : 0, baseTime : 50, bonusTime : 0, critChance : 0, potency : 2 }, 
+            { name : "Fortified Pumpkin", type : "Tough", category : "Vegetable", price : 5, baseHP : 2, bonusHP : 0, baseTime : 50, bonusTime : 0, critChance : 0, potency : 2 }, 
+            { name : "Armoranth", type : "Tough", category : "Vegetable", price : 5, baseHP : 0, bonusHP : 0, baseTime : 50, bonusTime : 0, critChance : 0, potency : 1 }, 
+            { name : "Armored Carp", type : "Tough", category : "Fish", price : 10, baseHP : 4, bonusHP : 0, baseTime : 50, bonusTime : 0, critChance : 0, potency : 2 }, 
+            { name : "Armored Porgy", type : "Tough", category : "Fish", price : 10, baseHP : 4, bonusHP : 0, baseTime : 50, bonusTime : 0, critChance : 0, potency : 3 }, 
+            { name : "Ironshell Crab", type : "Tough", category : "Seafood", price : 8, baseHP : 4, bonusHP : 0, baseTime : 50, bonusTime : 0, critChance : 0, potency : 2 }, 
+            { name : "Rugged Rhino Beetle", type : "Tough", category : "Critter", price : 4, baseHP : 0, bonusHP : 0, baseTime : 50, bonusTime : 0, critChance : 0, potency : 1 }, 
+            { name : "Mighty Bananas", type : "Mighty", category : "Fruit", price : 5, baseHP : 2, bonusHP : 0, baseTime : 50, bonusTime : 0, critChance : 0, potency : 2 }, 
+            { name : "Razorshroom", type : "Mighty", category : "Mushroom", price : 5, baseHP : 2, bonusHP : 0, baseTime : 50, bonusTime : 0, critChance : 0, potency : 2 }, 
+            { name : "Mighty Thistle", type : "Mighty", category : "Vegetable", price : 5, baseHP : 0, bonusHP : 0, baseTime : 50, bonusTime : 0, critChance : 0, potency : 1 }, 
+            { name : "Mighty Carp", type : "Mighty", category : "Fish", price : 10, baseHP : 4, bonusHP : 0, baseTime : 50, bonusTime : 0, critChance : 0, potency : 2 }, 
+            { name : "Mighty Porgy", type : "Mighty", category : "Fish", price : 10, baseHP : 4, bonusHP : 0, baseTime : 50, bonusTime : 0, critChance : 0, potency : 3 }, 
+            { name : "Razorclaw Crab", type : "Mighty", category : "Seafood", price : 8, baseHP : 4, bonusHP : 0, baseTime : 50, bonusTime : 0, critChance : 0, potency : 2 }, 
+            { name : "Bladed Rhino Beetle", type : "Mighty", category : "Critter", price : 4, baseHP : 0, bonusHP : 0, baseTime : 50, bonusTime : 0, critChance : 0, potency : 1 }, 
+            { name : "Smotherwing Butterfly", type : "Fireproof", category : "Critter", price : 2, baseHP : 0, bonusHP : 0, baseTime : 150, bonusTime : 0, critChance : 0, potency : 2 }, 
+            { name : "Fireproof Lizard", type : "Fireproof", category : "Critter", price : 5, baseHP : 0, bonusHP : 0, baseTime : 150, bonusTime : 0, critChance : 0, potency : 1 }, 
+            { name : "Voltfruit", type : "Electro", category : "Fruit", price : 4, baseHP : 2, bonusHP : 0, baseTime : 150, bonusTime : 0, critChance : 0, potency : 1 }, 
+            { name : "Zapshroom", type : "Electro", category : "Mushroom", price : 4, baseHP : 2, bonusHP : 0, baseTime : 150, bonusTime : 0, critChance : 0, potency : 2 }, 
+            { name : "Electric Safflina", type : "Electro", category : "Vegetable", price : 3, baseHP : 0, bonusHP : 0, baseTime : 150, bonusTime : 0, critChance : 0, potency : 1 }, 
+            { name : "Voltfin Trout", type : "Electro", category : "Fish", price : 6, baseHP : 4, bonusHP : 0, baseTime : 150, bonusTime : 0, critChance : 0, potency : 3 }, 
+            { name : "Thunderwing Butterfly", type : "Electro", category : "Critter", price : 2, baseHP : 0, bonusHP : 0, baseTime : 150, bonusTime : 0, critChance : 0, potency : 1 }, 
+            { name : "Electric Darner", type : "Electro", category : "Critter", price : 2, baseHP : 0, bonusHP : 0, baseTime : 150, bonusTime : 0, critChance : 0, potency : 2 }, 
+            { name : "Hydromelon", type : "Chilly", category : "Fruit", price : 4, baseHP : 2, bonusHP : 0, baseTime : 150, bonusTime : 0, critChance : 0, potency : 1 }, 
+            { name : "Chillshroom", type : "Chilly", category : "Mushroom", price : 4, baseHP : 2, bonusHP : 0, baseTime : 150, bonusTime : 0, critChance : 0, potency : 2 }, 
+            { name : "Cool Safflina", type : "Chilly", category : "Vegetable", price : 3, baseHP : 0, bonusHP : 0, baseTime : 150, bonusTime : 0, critChance : 0, potency : 1 }, 
+            { name : "Chillfin Trout", type : "Chilly", category : "Fish", price : 6, baseHP : 4, bonusHP : 0, baseTime : 150, bonusTime : 0, critChance : 0, potency : 3 }, 
+            { name : "Winterwing Butterfly", type : "Chilly", category : "Critter", price : 2, baseHP : 0, bonusHP : 0, baseTime : 150, bonusTime : 0, critChance : 0, potency : 1 }, 
+            { name : "Cold Darner", type : "Chilly", category : "Critter", price : 2, baseHP : 0, bonusHP : 0, baseTime : 150, bonusTime : 0, critChance : 0, potency : 2 }, 
+            { name : "Spicy Pepper", type : "Spicy", category : "Fruit*", price : 3, baseHP : 2, bonusHP : 0, baseTime : 150, bonusTime : 0, critChance : 0, potency : 1 }, 
+            { name : "Sunshroom", type : "Spicy", category : "Mushroom", price : 4, baseHP : 2, bonusHP : 0, baseTime : 150, bonusTime : 0, critChance : 0, potency : 2 }, 
+            { name : "Warm Safflina", type : "Spicy", category : "Vegetable", price : 3, baseHP : 0, bonusHP : 0, baseTime : 150, bonusTime : 0, critChance : 0, potency : 1 }, 
+            { name : "Sizzlefin Trout", type : "Spicy", category : "Fish", price : 6, baseHP : 4, bonusHP : 0, baseTime : 150, bonusTime : 0, critChance : 0, potency : 3 }, 
+            { name : "Summerwing Butterfly", type : "Spicy", category : "Critter", price : 2, baseHP : 0, bonusHP : 0, baseTime : 150, bonusTime : 0, critChance : 0, potency : 1 }, 
+            { name : "Warm Darner", type : "Spicy", category : "Critter", price : 2, baseHP : 0, bonusHP : 0, baseTime : 150, bonusTime : 0, critChance : 0, potency : 2 }, 
+            { name : "Fleet-Lotus Seeds", type : "Hasty", category : "Fruit", price : 5, baseHP : 2, bonusHP : 0, baseTime : 60, bonusTime : 0, critChance : 0, potency : 2 }, 
+            { name : "Rushroom", type : "Hasty", category : "Mushroom", price : 3, baseHP : 2, bonusHP : 0, baseTime : 60, bonusTime : 0, critChance : 0, potency : 1 }, 
+            { name : "Swift Carrot", type : "Hasty", category : "Vegetable", price : 4, baseHP : 2, bonusHP : 0, baseTime : 60, bonusTime : 0, critChance : 0, potency : 1 }, 
+            { name : "Swift Violet", type : "Hasty", category : "Vegetable", price : 10, baseHP : 0, bonusHP : 0, baseTime : 60, bonusTime : 0, critChance : 0, potency : 2 }, 
+            { name : "Hot-Footed Frog", type : "Hasty", category : "Critter", price : 2, baseHP : 0, bonusHP : 0, baseTime : 60, bonusTime : 0, critChance : 0, potency : 2 }, 
+            { name : "Hightail Lizard", type : "Hasty", category : "Critter", price : 2, baseHP : 0, bonusHP : 0, baseTime : 60, bonusTime : 0, critChance : 0, potency : 1 },
+        ];
 
         const counterTop = document.querySelector(".countertop");
-        for (const item in zeldaData) {
-            const markup = `
-                <div class="item" data-item="${item}">
-                    <img class="item-img" src="img/${item}.png" alt="${item}">
-                </div>
-            `;
-            counterTop.innerHTML += markup;
-        }
-
-        const data = {
-            "one" : 1,
-            "two" : 2,
-            "three" : 3,
-            "four" : 4,
-            "five" : 5,
-            "six" : 6,
-            "seven" : 7,
-            "eight" : 8,
-            "nine" : 9,
-            "ten" : 10
-        };
+        zeldaData.sort((a,b) => a.name > b.name ? 1 : -1)
+                 .map(item => {
+                    const markup = `
+                        <div class="item" data-item="${item.name}">
+                            <img class="item-img" src="img/${item.name}.png" alt="${item.name}">
+                        </div>
+                    `;
+                    counterTop.innerHTML += markup;
+                 });
+        // console.log(zeldaData);
+        // for (const item of zeldaData) {
+        //     const markup = `
+        //         <div class="item" data-item="${item.name}">
+        //             <img class="item-img" src="img/${item.name}.png" alt="${item.name}">
+        //         </div>
+        //     `;
+        //     counterTop.innerHTML += markup;
+        // }
 
         const potItems = document.querySelectorAll(".box");
         const counterItems = document.querySelectorAll(".item");
@@ -224,18 +221,12 @@
                 if (potItem.classList.contains("empty")) {
                     potItem.classList.replace("empty", "filled");
                     potItem.setAttribute("data-item", this.getAttribute("data-item"));
-                    const item = this.getAttribute("data-item");
-                    potItem.innerHTML = `<img class="item-img" src="img/${item}.png" alt="${item}">`
+                    const item = zeldaData.find((item) => { return item.name === this.getAttribute("data-item")});
+                    potItem.innerHTML = `<img class="item-img" src="img/${item.name}.png" alt="${item.name}">`
+                    console.log(item.price);
                     break;
                 }
             };
-            // if (this.classList.contains("empty")) {
-            //     this.classList.replace("empty", "filled");
-            //     this.setAttribute("data-num", "one");
-            // } else {
-            //     this.classList.replace("filled", "empty");
-            //     this.removeAttribute("data-num");
-            // }
             cook(); 
         }
 
@@ -250,16 +241,12 @@
 
         function cook() {
             const ingredients = document.querySelectorAll('.filled');
-            let total = 0;
-            for (const ingredient of ingredients) {
-                total += zeldaData[ingredient.getAttribute("data-item")].price;
-            }
             let baseHP = 0;
             let bonusHP = 0;
             for (let i = 0; i < ingredients.length; i++) {
-                const ingredient = ingredients[i];
-                baseHP += zeldaData[ingredient.getAttribute("data-item")].baseHP;
-                bonusHP += zeldaData[ingredient.getAttribute("data-item")].bonusHP;
+                const item = zeldaData.find((item) => { return item.name === ingredients[i].getAttribute("data-item") });
+                baseHP += item.baseHP;
+                bonusHP += item.bonusHP;
             }
             result.innerHTML = (2*baseHP) + bonusHP;
         }
