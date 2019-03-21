@@ -88,24 +88,12 @@
         <div class="box empty"></div>
         <div class="box empty"></div>
         <div class="box empty"></div>
+        <div class="box empty"></div>
         <div class="result">0</div>
     </div>
     <div class="countertop">
         
     </div>
-    <!-- <div class="counter">
-        <div class="ingredient" data-num="one">1</div>
-        <div class="ingredient" data-num="two">2</div>
-        <div class="ingredient" data-num="three">3</div>
-        <div class="ingredient" data-num="four">4</div>
-        <div class="ingredient" data-num="five">5</div>
-        <div class="ingredient" data-num="six">6</div>
-        <div class="ingredient" data-num="seven">7</div>
-        <div class="ingredient" data-num="eight">8</div>
-        <div class="ingredient" data-num="nine">9</div>
-        <div class="ingredient" data-num="ten">10</div>
-        <div class="ingredient" data-num="eleven">11</div>
-    </div> -->
 
     <script>
         // Each ingredient contributes its bonus HP and/or time at most once per recipe
@@ -171,7 +159,11 @@
             { name : "Chillfin Trout", type : "Chilly", category : "Fish", price : 6, baseHP : 4, bonusHP : 0, baseTime : 150, bonusTime : 0, critChance : 0, potency : 3 }, 
             { name : "Winterwing Butterfly", type : "Chilly", category : "Critter", price : 2, baseHP : 0, bonusHP : 0, baseTime : 150, bonusTime : 0, critChance : 0, potency : 1 }, 
             { name : "Cold Darner", type : "Chilly", category : "Critter", price : 2, baseHP : 0, bonusHP : 0, baseTime : 150, bonusTime : 0, critChance : 0, potency : 2 }, 
-            { name : "Spicy Pepper", type : "Spicy", category : "Fruit*", price : 3, baseHP : 2, bonusHP : 0, baseTime : 150, bonusTime : 0, critChance : 0, potency : 1 }, 
+            /* Counterintuitively, Spicy Pepper is treated as a fruit in most recipes; the
+                exceptions I have found are fruitcake, and any recipe that looks specifically
+                for spicy pepper (pepper steak, pepper seafood, sauteed peppers 
+            */
+            { name : "Spicy Pepper", type : "Spicy", category : "Fruit", price : 3, baseHP : 2, bonusHP : 0, baseTime : 150, bonusTime : 0, critChance : 0, potency : 1 }, 
             { name : "Sunshroom", type : "Spicy", category : "Mushroom", price : 4, baseHP : 2, bonusHP : 0, baseTime : 150, bonusTime : 0, critChance : 0, potency : 2 }, 
             { name : "Warm Safflina", type : "Spicy", category : "Vegetable", price : 3, baseHP : 0, bonusHP : 0, baseTime : 150, bonusTime : 0, critChance : 0, potency : 1 }, 
             { name : "Sizzlefin Trout", type : "Spicy", category : "Fish", price : 6, baseHP : 4, bonusHP : 0, baseTime : 150, bonusTime : 0, critChance : 0, potency : 3 }, 
@@ -195,15 +187,6 @@
                     `;
                     counterTop.innerHTML += markup;
                  });
-        // console.log(zeldaData);
-        // for (const item of zeldaData) {
-        //     const markup = `
-        //         <div class="item" data-item="${item.name}">
-        //             <img class="item-img" src="img/${item.name}.png" alt="${item.name}">
-        //         </div>
-        //     `;
-        //     counterTop.innerHTML += markup;
-        // }
 
         const potItems = document.querySelectorAll(".box");
         const counterItems = document.querySelectorAll(".item");
